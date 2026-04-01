@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+{% block title %}Products - ShopHub{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/products.css') }}">
+{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<div class="page-header">
+    <div class="container">
+        <h1>All Products</h1>
+        <p>Browse our selection of quality products</p>
+    </div>
+</div>
+
+<!-- Products Layout -->
+<div class="container products-layout">
+    <!-- Filters Sidebar -->
+    <aside class="filters-sidebar">
+        <h3>Filters</h3>
+        
+        <div class="filter-group">
+            <h4>Category</h4>
+            {% for category in categories %}
+            <label>
+                <input type="checkbox" 
+                       class="filter-checkbox" 
+                       value="{{ category }}"
+                       {% if selected_category == category %}checked{% endif %}>
+                {{ category }}
+            </label>
+            {% endfor %}
+        </div>
+        
+        <div class="filter-group">
+            <h4>Price Range</h4>
+            <label>
+                <input type="checkbox" name="price" value="0-50"> Under $50
+            </label>
+            <label>
+                <input type="checkbox" name="price" value="50-100"> $50 - $100
+            </label>
+            <label>
+                <input type="checkbox" name="price" value="100-500"> $100 - $500
+            </label>
+            <label>
+                <input type="checkbox" name="price" value="500+"> $500+
+            </label>
+        </div>
+        
+        <button class="btn btn-outline clear-filters" style="width: 100%;">Clear All Filters</button>
+    </aside>
+    
+    <!-- Products Grid -->
+    <main class="products-main">
+        <h2>
+            {% if search_query %}
+                Search Results for "{{ search_query }}"
+            {% elif selected_category %}
+                {{ selected_category }}
+            {% else %}
+                All Products
+            {% endif %}
+        </h2>
+        
+        <div class="products-toolbar">
+            <span class="results-count">{{ products|length }} products found</span>
+            <select class="sort-select" id="sort-select">
+                <option value="">Sort by</option>
+                <option value="price_asc">Price: Low to High</option>
+                <option value="price_desc">Price: High to Low</option>
+                <option value="rating">Highest Rated</option>
+                <option value="reviews">Most Reviews</option>
+            </select>
+        </div>
+        
+        {% if products %}
+        <div class="products-grid">
+            {% for product in products %}
+            <div class="product-card">
+                <a href="{{ url_for('products.product_detail', product_id=product.id) }}">
+                    <div class="product-image">
+                        {% if product.image_url %}
+                        <img src="{{ product.image_url }}" alt="{{ product.name }}">
+                        {% else %}
+                        <div class="placeholder-image">📦</div>
+                        {% endif %}
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">{{ product.name }}</h3>
+                        <div class="product-rating">
+                            <span class="stars">{% for i in range(5) %}{% if i < product.rating|int %}★{% else %}☆{% endif %}{% endfor %}</span>
+                            <span class="rating-count">({{ product.reviews }})</span>
+                        </div>
+                        <div class="product-price">${{ "%.2f"|format(product.price) }}</div>
+                        <div class="product-category">{{ product.category }}</div>
+                    </div>
+                </a>
+                <button class="btn btn-primary add-to-cart-btn" data-product-id="{{ product.id }}">Add to Cart</button>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="no-products">
+            <h3>No products found</h3>
+            <p>Try adjusting your search or filters</p>
+            <a href="{{ url_for('products.product_list') }}" class="btn btn-primary">View All Products</a>
+        </div>
+        {% endif %}
+        
+        <!-- Pagination -->
+        {% if products|length > 20 %}
+        <div class="pagination">
+            <a href="#">&laquo; Previous</a>
+            <span class="active">1</span>
+            <a href="#">2</a>
+            <a href="#">3</a>
+            <a href="#">Next &raquo;</a>
+        </div>
+        {% endif %}
+    </main>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/products.js') }}"></script>
+{% endblock %}

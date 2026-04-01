@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Shop - Online Shopping{% endblock %}</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
+    {% block extra_css %}{% endblock %}
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="{{ url_for('main.index') }}" class="logo">
+                <span>Shop</span>Hub
+            </a>
+            
+            <form class="search-form search-bar" action="{{ url_for('products.product_list') }}" method="get">
+                <input type="text" name="q" placeholder="Search for products..." value="{{ search_query or '' }}">
+                <button type="submit"><i class="fas fa-search"></i></button>
+            </form>
+            
+            <div class="nav-links">
+                <a href="{{ url_for('main.index') }}">
+                    <i class="fas fa-home"></i>
+                    <strong>Home</strong>
+                </a>
+                <a href="{{ url_for('products.product_list') }}">
+                    <i class="fas fa-store"></i>
+                    <strong>Products</strong>
+                </a>
+                <a href="{{ url_for('budget.budget_page') }}">
+                    <i class="fas fa-calculator"></i>
+                    <strong>Budget</strong>
+                </a>
+                <a href="{{ url_for('cart.view_cart') }}" class="cart-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count" style="display: none;">0</span>
+                    <strong>Cart</strong>
+                </a>
+                {% if session.get('user_id') %}
+                    <a href="{{ url_for('auth.profile') }}">
+                        <i class="fas fa-user"></i>
+                        <strong>{{ session.get('username') }}</strong>
+                    </a>
+                    <a href="{{ url_for('auth.logout') }}">
+                        <strong>Logout</strong>
+                    </a>
+                {% else %}
+                    <a href="{{ url_for('auth.login') }}">
+                        <i class="fas fa-sign-in-alt"></i>
+                        <strong>Login</strong>
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Secondary Nav -->
+    <div class="nav-secondary">
+        <div class="container">
+            <ul>
+                <li><a href="{{ url_for('products.product_list') }}">All Products</a></li>
+                <li><a href="{{ url_for('products.product_list', category='Electronics') }}">Electronics</a></li>
+                <li><a href="{{ url_for('products.product_list', category='Clothing') }}">Clothing</a></li>
+                <li><a href="{{ url_for('products.product_list', category='Home') }}">Home & Kitchen</a></li>
+                <li><a href="{{ url_for('products.product_list', category='Books') }}">Books</a></li>
+                <li><a href="{{ url_for('budget.budget_page') }}">Budget Optimizer</a></li>
+            </ul>
+        </div>
+    </div>
+    
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="container mt-2">
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+    
+    <!-- Main Content -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <h3>ShopHub</h3>
+                    <ul>
+                        <li><a href="{{ url_for('main.index') }}">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Press</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Customer Service</h3>
+                    <ul>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Shipping Info</a></li>
+                        <li><a href="#">Returns</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="{{ url_for('products.product_list') }}">Products</a></li>
+                        <li><a href="{{ url_for('budget.budget_page') }}">Budget Optimizer</a></li>
+                        <li><a href="{{ url_for('cart.view_cart') }}">Cart</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Connect</h3>
+                    <ul>
+                        <li><a href="#"><i class="fab fa-facebook"></i> Facebook</a></li>
+                        <li><a href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
+                        <li><a href="#"><i class="fab fa-instagram"></i> Instagram</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 ShopHub. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="{{ url_for('static', filename='js/cart.js') }}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

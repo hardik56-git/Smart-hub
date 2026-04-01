@@ -1,0 +1,361 @@
+{% extends "base.html" %}
+
+{% block title %}ShopHub - Your Online Shopping Destination{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/assistant.css') }}">
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero-particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+    <div class="container">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>Shop <span>Smart</span> with ShopHub</h1>
+                <p>Discover amazing products at great prices. Use our AI-powered budget optimizer to get the best deals within your budget!</p>
+                <a href="{{ url_for('products.product_list') }}" class="btn btn-primary">Browse Products</a>
+                <a href="{{ url_for('budget.budget_page') }}" class="btn btn-outline" style="color: white; border-color: white;">Try Budget Optimizer</a>
+            </div>
+            
+        </div>
+    </div>
+</section>
+
+<!-- Banners Section -->
+<section class="container">
+    <div class="banners">
+        <div class="banner-card">
+            <h3>Electronics</h3>
+            <p>Latest gadgets & tech</p>
+            <a href="{{ url_for('products.product_list', category='Electronics') }}" class="shop-link">Shop now</a>
+        </div>
+        <div class="banner-card">
+            <h3>Fashion</h3>
+            <p>Trendy clothing & accessories</p>
+            <a href="{{ url_for('products.product_list', category='Clothing') }}" class="shop-link">Shop now</a>
+        </div>
+        <div class="banner-card">
+            <h3>Home & Kitchen</h3>
+            <p>Everything for your home</p>
+            <a href="{{ url_for('products.product_list', category='Home') }}" class="shop-link">Shop now</a>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Products -->
+<section class="container featured-products">
+    <h2 class="section-title">Featured Products</h2>
+    <div class="product-grid">
+        {% for product in featured_products %}
+        <div class="product-card">
+            <a href="{{ url_for('products.product_detail', product_id=product.id) }}">
+                <div class="product-image">
+                    {% if product.image_url %}
+                    <img src="{{ product.image_url }}" alt="{{ product.name }}">
+                    {% else %}
+                    <div class="placeholder-image">📦</div>
+                    {% endif %}
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">{{ product.name }}</h3>
+                    <div class="product-rating">
+                        <span class="stars">{% for i in range(5) %}{% if i < product.rating|int %}★{% else %}☆{% endif %}{% endfor %}</span>
+                        <span class="rating-count">({{ product.reviews }})</span>
+                    </div>
+                    <div class="product-price">${{ "%.2f"|format(product.price) }}</div>
+                    <div class="product-category">{{ product.category }}</div>
+                </div>
+            </a>
+            <button class="btn btn-primary add-to-cart-btn" data-product-id="{{ product.id }}">Add to Cart</button>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Categories Section -->
+<section class="categories-section">
+    <div class="container">
+        <h2 class="section-title">Shop by Category</h2>
+        <div class="categories-grid">
+            <a href="{{ url_for('products.product_list', category='Electronics') }}" class="category-card">
+                <div style="font-size: 40px;">📱</div>
+                <h4>Electronics</h4>
+            </a>
+            <a href="{{ url_for('products.product_list', category='Clothing') }}" class="category-card">
+                <div style="font-size: 40px;">👕</div>
+                <h4>Clothing</h4>
+            </a>
+            <a href="{{ url_for('products.product_list', category='Home') }}" class="category-card">
+                <div style="font-size: 40px;">🏠</div>
+                <h4>Home</h4>
+            </a>
+            <a href="{{ url_for('products.product_list', category='Books') }}" class="category-card">
+                <div style="font-size: 40px;">📚</div>
+                <h4>Books</h4>
+            </a>
+            <a href="{{ url_for('products.product_list', category='Sports') }}" class="category-card">
+                <div style="font-size: 40px;">⚽</div>
+                <h4>Sports</h4>
+            </a>
+            <a href="{{ url_for('budget.budget_page') }}" class="category-card">
+                <div style="font-size: 40px;">💰</div>
+                <h4>Budget Optimize</h4>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Benefits Section -->
+<section class="container">
+    <div class="benefits">
+        <div class="benefit-item">
+            <div class="icon">🚚</div>
+            <h4>Free Shipping</h4>
+            <p>On orders over $50</p>
+        </div>
+        <div class="benefit-item">
+            <div class="icon">🛡️</div>
+            <h4>Secure Payment</h4>
+            <p>100% secure checkout</p>
+        </div>
+        <div class="benefit-item">
+            <div class="icon">↩️</div>
+            <h4>Easy Returns</h4>
+            <p>30-day return policy</p>
+        </div>
+        <div class="benefit-item">
+            <div class="icon">💬</div>
+            <h4>24/7 Support</h4>
+            <p>Always here to help</p>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/assistant.js') }}"></script>
+
+<!-- AI Chat Widget - Only shown on index page -->
+    <div class="chat-widget">
+        <button class="chat-toggle">
+            <span class="chat-icon">💬</span>
+            <span class="close-icon">✕</span>
+        </button>
+        <div class="chat-window">
+            <div class="chat-header">
+                <div class="chat-header-info">
+                    <div class="chat-avatar">😊</div>
+                    <div class="chat-header-text">
+                        <h3>Shop Assistant</h3>
+                        <p>Always here to help</p>
+                    </div>
+                </div>
+                <button class="chat-close"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="chat-messages"></div>
+            <div class="quick-questions">
+                <button class="quick-question">Help</button>
+                <button class="quick-question">Products</button>
+                <button class="quick-question">Budget</button>
+                <button class="quick-question">Cart</button>
+            </div>
+            <div class="chat-input-container">
+                <input type="text" class="chat-input" placeholder="Type a message...">
+                <button class="chat-send-btn"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+<script src="{{ url_for('static', filename='js/assistant.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function() {
+    // Scene setup
+    const canvas = document.getElementById('robot-canvas');
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(50, 300 / 400, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+    renderer.setSize(300, 400);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    camera.position.z = 5;
+    
+    // Colors
+    const ORANGE = 0xFF9F00;
+    const DARK = 0x131921;
+    const WHITE = 0xffffff;
+    
+    // RobotGroup
+    const robot = new THREE.Group();
+    
+    // Body (Cylinder)
+    const bodyGeo = new THREE.CylinderGeometry(0.8, 1, 1.5, 32);
+    const bodyMat = new THREE.MeshPhongMaterial({ color: ORANGE });
+    const body = new THREE.Mesh(bodyGeo, bodyMat);
+    body.position.y = -0.5;
+    robot.add(body);
+    
+    // Head (Box)
+    const headGeo = new THREE.BoxGeometry(1.2, 1, 1);
+    const headMat = new THREE.MeshPhongMaterial({ color: ORANGE });
+    const head = new THREE.Mesh(headGeo, headMat);
+    head.position.y = 0.8;
+    robot.add(head);
+    
+    // Eyes (Spheres)
+    const eyeGeo = new THREE.SphereGeometry(0.15, 16, 16);
+    const eyeMat = new THREE.MeshPhongMaterial({ color: WHITE, emissive: WHITE, emissiveIntensity: 0.5 });
+    
+    const leftEye = new THREE.Mesh(eyeGeo, eyeMat);
+    leftEye.position.set(-0.25, 0.9, 0.5);
+    robot.add(leftEye);
+    
+    const rightEye = new THREE.Mesh(eyeGeo, eyeMat);
+    rightEye.position.set(0.25, 0.9, 0.5);
+    robot.add(rightEye);
+    
+    // Pupils
+    const pupilGeo = new THREE.SphereGeometry(0.08, 16, 16);
+    const pupilMat = new THREE.MeshPhongMaterial({ color: DARK });
+    
+    const leftPupil = new THREE.Mesh(pupilGeo, pupilMat);
+    leftPupil.position.set(-0.25, 0.9, 0.6);
+    robot.add(leftPupil);
+    
+    const rightPupil = new THREE.Mesh(pupilGeo, pupilMat);
+    rightPupil.position.set(0.25, 0.9, 0.6);
+    robot.add(rightPupil);
+    
+    // Antenna
+    const antennaGeo = new THREE.CylinderGeometry(0.05, 0.05, 0.4, 8);
+    const antennaMat = new THREE.MeshPhongMaterial({ color: DARK });
+    const antenna = new THREE.Mesh(antennaGeo, antennaMat);
+    antenna.position.set(0, 1.6, 0);
+    robot.add(antenna);
+    
+    const antennaTopGeo = new THREE.SphereGeometry(0.1, 16, 16);
+    const antennaTop = new THREE.Mesh(antennaTopGeo, new THREE.MeshPhongMaterial({ color: ORANGE }));
+    antennaTop.position.set(0, 1.8, 0);
+    robot.add(antennaTop);
+    
+    // Arms
+    const armGeo = new THREE.CylinderGeometry(0.15, 0.15, 0.8, 8);
+    const armMat = new THREE.MeshPhongMaterial({ color: DARK });
+    
+    const leftArm = new THREE.Mesh(armGeo, armMat);
+    leftArm.position.set(-1.1, -0.3, 0);
+    leftArm.rotation.z = 0.3;
+    robot.add(leftArm);
+    
+    const rightArm = new THREE.Mesh(armGeo, armMat);
+    rightArm.position.set(1.1, -0.3, 0);
+    rightArm.rotation.z = -0.3;
+    robot.add(rightArm);
+    
+    // Feet
+    const footGeo = new THREE.BoxGeometry(0.4, 0.2, 0.5);
+    const footMat = new THREE.MeshPhongMaterial({ color: DARK });
+    
+    const leftFoot = new THREE.Mesh(footGeo, footMat);
+    leftFoot.position.set(-0.3, -1.5, 0.1);
+    robot.add(leftFoot);
+    
+    const rightFoot = new THREE.Mesh(footGeo, footMat);
+    rightFoot.position.set(0.3, -1.5, 0.1);
+    robot.add(rightFoot);
+    
+    scene.add(robot);
+    
+    // Lights
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+    scene.add(ambientLight);
+    
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+    directionalLight.position.set(5, 5, 5);
+    scene.add(directionalLight);
+    
+    const pointLight = new THREE.PointLight(ORANGE, 0.5, 10);
+    pointLight.position.set(0, 2, 3);
+    scene.add(pointLight);
+    
+    // Mouse tracking
+    let mouseX = 0;
+    let mouseY = 0;
+    let targetEyeX = 0;
+    let targetEyeY = 0;
+    let targetHeadZ = 0;
+    
+    document.addEventListener('mousemove', function(event) {
+        const rect = canvas.getBoundingClientRect();
+        mouseX = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+        mouseY = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+    });
+    
+    // Animation loop
+    let time = 0;
+    function animate() {
+        requestAnimationFrame(animate);
+        time += 0.02;
+        
+        // Float up/down
+        robot.position.y = Math.sin(time * 2) * 0.1;
+        
+        // Rotate slowly
+        robot.rotation.y = Math.sin(time * 0.5) * 0.1;
+        
+        // Breathing scale pulse
+        const scale = 1 + Math.sin(time * 3) * 0.02;
+        robot.scale.set(scale, scale, scale);
+        
+        // Eyes follow mouse
+        targetEyeX = mouseX * 0.1;
+        targetEyeY = mouseY * 0.1;
+        leftPupil.position.x = -0.25 + targetEyeX;
+        leftPupil.position.y = 0.9 + targetEyeY;
+        rightPupil.position.x = 0.25 + targetEyeX;
+        rightPupil.position.y = 0.9 + targetEyeY;
+        
+        // Head tilt toward mouse
+        targetHeadZ = -mouseX * 0.15;
+        head.rotation.z += (targetHeadZ - head.rotation.z) * 0.05;
+        leftEye.rotation.z = head.rotation.z;
+        rightEye.rotation.z = head.rotation.z;
+        
+        renderer.render(scene, camera);
+    }
+    
+    // Hide on mobile
+    if (window.innerWidth <= 768) {
+        canvas.style.display = 'none';
+    } else {
+        animate();
+    }
+    
+    // Handle resize
+    window.addEventListener('resize', function() {
+        if (window.innerWidth <= 768) {
+            canvas.style.display = 'none';
+        } else {
+            canvas.style.display = 'block';
+        }
+    });
+})();
+</script>
+{% endblock %}

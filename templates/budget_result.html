@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Budget Results - ShopHub{% endblock %}
+
+{% block content %}
+<!-- Budget Result Section -->
+<div class="container" style="padding: 40px 20px;">
+    <div class="budget-result-page">
+        <h1> Your Budget Optimization Results</h1>
+        <p class="subtitle">Budget: ${{ "%.2f"|format(budget) }}</p>
+        
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="{{ url_for('budget.budget_page') }}" class="btn btn-primary">Try Different Budget</a>
+            <a href="{{ url_for('products.product_list') }}" class="btn btn-outline" style="margin-left: 15px;">Browse All Products</a>
+        </div>
+    </div>
+</div>
+
+<style>
+.budget-result-page {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.budget-result-page h1 {
+    font-size: 32px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.budget-result-page .subtitle {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 18px;
+    margin-bottom: 40px;
+}
+</style>
+{% endblock %}

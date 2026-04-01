@@ -1,0 +1,268 @@
+{% extends "base.html" %}
+
+{% block title %}Budget Optimizer - ShopHub{% endblock %}
+
+{% block content %}
+<!-- Budget Optimizer Section -->
+<div class="container" style="padding: 40px 20px;">
+    <div class="budget-page">
+        <h1>Budget Optimizer</h1>
+        <p class="subtitle">Get the best products within your budget using our smart algorithm</p>
+        
+        <!-- Budget Form -->
+        <div class="budget-form-container">
+            <form id="budget-form" class="budget-form">
+                <div class="form-group">
+                    <label for="budget-amount">Enter Your Budget ($)</label>
+                    <input type="number" id="budget-amount" name="budget" placeholder="e.g., 500" min="1" step="0.01" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Select Categories (Optional)</label>
+                    <div class="category-options">
+                        {% for category in categories %}
+                        <label class="category-checkbox-label">
+                            <input type="checkbox" class="category-checkbox" value="{{ category }}">
+                            {{ category }}
+                        </label>
+                        {% endfor %}
+                    </div>
+                    <div class="category-actions">
+                        <button type="button" class="btn btn-sm select-all-categories">Select All</button>
+                        <button type="button" class="btn btn-sm btn-outline clear-all-categories">Clear All</button>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-lg">Optimize My Budget</button>
+            </form>
+        </div>
+        
+        <!-- Results Container -->
+        <div class="budget-results" id="budget-results">
+            <!-- Results will be displayed here -->
+        </div>
+    </div>
+</div>
+
+<style>
+.budget-page {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.budget-page h1 {
+    font-size: 36px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.budget-page .subtitle {
+    text-align: center;
+    color: var(--text-muted);
+    margin-bottom: 40px;
+}
+
+.budget-form-container {
+    background: var(--white);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 30px;
+    margin-bottom: 40px;
+}
+
+.budget-form .form-group {
+    margin-bottom: 25px;
+}
+
+.budget-form label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: var(--text-dark);
+}
+
+.budget-form input[type="number"] {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 18px;
+}
+
+.category-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.category-checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 15px;
+    background: var(--light-bg);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.category-checkbox-label:hover {
+    background: #e8e8e8;
+}
+
+.category-checkbox-label input {
+    width: 18px;
+    height: 18px;
+}
+
+.category-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-sm {
+    padding: 8px 16px;
+    font-size: 13px;
+}
+
+.budget-results {
+    margin-top: 40px;
+}
+
+.results-summary {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.summary-card {
+    background: var(--white);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+}
+
+.summary-icon {
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+.summary-details h4 {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 5px;
+}
+
+.summary-details p {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+.recommended-products h3 {
+    font-size: 24px;
+    margin-bottom: 25px;
+}
+
+.recommendation-card {
+    background: var(--white);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    gap: 20px;
+}
+
+.recommendation-card .product-image {
+    width: 120px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.recommendation-card .product-image img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.recommendation-card .placeholder {
+    font-size: 50px;
+}
+
+.recommendation-card .product-info {
+    flex: 1;
+}
+
+.recommendation-card .product-name {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: var(--text-dark);
+}
+
+.recommendation-card .product-rating {
+    margin-bottom: 10px;
+}
+
+.recommendation-card .stars {
+    color: #ffa41c;
+}
+
+.recommendation-card .reviews {
+    color: var(--text-muted);
+    font-size: 12px;
+}
+
+.recommendation-card .product-price {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.budget-loading {
+    text-align: center;
+    padding: 60px;
+}
+
+.loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid var(--border-color);
+    border-top-color: var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 20px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.budget-error {
+    text-align: center;
+    padding: 40px;
+    background: #fef2f2;
+    border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+    .results-summary {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .recommendation-card {
+        flex-direction: column;
+    }
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/budget.js') }}"></script>
+{% endblock %}

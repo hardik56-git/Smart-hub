@@ -1,0 +1,349 @@
+/* Global Styles - Fonts, Reset, Navbar, Footer */
+
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* CSS Reset */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --primary-color: #232f3e;
+    --secondary-color: #febd69;
+    --accent-color: #131921;
+    --text-dark: #111;
+    --text-light: #555;
+    --text-muted: #777;
+    --white: #fff;
+    --light-bg: #f3f3f3;
+    --border-color: #ddd;
+    --shadow: 0 2px 8px rgba(0,0,0,0.1);
+    --success: #4caf50;
+    --error: #f44336;
+    --warning: #ff9800;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text-dark);
+    background-color: var(--white);
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    transition: color 0.2s;
+}
+
+a:hover {
+    color: var(--secondary-color);
+}
+
+ul {
+    list-style: none;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+button, input, select, textarea {
+    font-family: inherit;
+    font-size: inherit;
+}
+
+/* Container */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Navbar */
+.navbar {
+    background: var(--primary-color);
+    color: var(--white);
+    padding: 15px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--white);
+}
+
+.logo span {
+    color: var(--secondary-color);
+}
+
+.logo:hover {
+    color: var(--white);
+}
+
+.search-bar {
+    flex: 1;
+    max-width: 600px;
+    display: flex;
+}
+
+.search-bar input {
+    flex: 1;
+    padding: 12px 15px;
+    border: none;
+    border-radius: 4px 0 0 4px;
+    font-size: 14px;
+}
+
+.search-bar button {
+    padding: 12px 20px;
+    background: var(--secondary-color);
+    border: none;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.2s;
+}
+
+.search-bar button:hover {
+    background: #f7a947;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.nav-links a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 12px;
+}
+
+.nav-links a strong {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.nav-links .cart-icon {
+    position: relative;
+}
+
+.nav-links .cart-count {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: var(--secondary-color);
+    color: var(--text-dark);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 50%;
+}
+
+/* Secondary Nav */
+.nav-secondary {
+    background: var(--accent-color);
+    padding: 10px 0;
+}
+
+.nav-secondary ul {
+    display: flex;
+    gap: 20px;
+    font-size: 13px;
+}
+
+.nav-secondary a {
+    color: var(--white);
+}
+
+.nav-secondary a:hover {
+    text-decoration: underline;
+}
+
+/* Footer */
+.footer {
+    background: var(--primary-color);
+    color: var(--white);
+    padding: 50px 0 20px;
+    margin-top: 50px;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.footer h3 {
+    font-size: 16px;
+    margin-bottom: 15px;
+    color: var(--white);
+}
+
+.footer ul li {
+    margin-bottom: 10px;
+}
+
+.footer ul li a {
+    color: #ddd;
+    font-size: 13px;
+}
+
+.footer ul li a:hover {
+    color: var(--secondary-color);
+}
+
+.footer-bottom {
+    border-top: 1px solid #3a4553;
+    padding-top: 20px;
+    text-align: center;
+    font-size: 12px;
+    color: #999;
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    text-align: center;
+    transition: all 0.2s;
+}
+
+.btn-primary {
+    background: var(--secondary-color);
+    color: var(--text-dark);
+}
+
+.btn-primary:hover {
+    background: #f7a947;
+}
+
+.btn-secondary {
+    background: var(--primary-color);
+    color: var(--white);
+}
+
+.btn-secondary:hover {
+    background: #131921;
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-dark);
+}
+
+.btn-outline:hover {
+    border-color: var(--text-dark);
+}
+
+/* Form Styles */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+/* Alerts */
+.alert {
+    padding: 15px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.alert-success {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.alert-error {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.alert-info {
+    background: #d1ecf1;
+    color: #0c5460;
+    border: 1px solid #bee5eb;
+}
+
+/* Utilities */
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.mt-1 { margin-top: 10px; }
+.mt-2 { margin-top: 20px; }
+.mt-3 { margin-top: 30px; }
+.mb-1 { margin-bottom: 10px; }
+.mb-2 { margin-bottom: 20px; }
+.mb-3 { margin-bottom: 30px; }
+
+/* Responsive */
+@media (max-width: 768px) {
+    .navbar .container {
+        flex-wrap: wrap;
+    }
+    
+    .search-bar {
+        order: 3;
+        max-width: 100%;
+        width: 100%;
+        margin-top: 10px;
+    }
+    
+    .nav-links {
+        gap: 15px;
+    }
+    
+    .footer-grid {
+        grid-template-columns: 1fr;
+    }
+}
